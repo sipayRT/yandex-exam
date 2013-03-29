@@ -20,9 +20,10 @@ jQuery(document).ready(function ($) {
 		complete: function(){
 			var hashedImage = locationParse();
 			var actualImage = (hashedImage) ? $('[data-remembered-image="'+hashedImage+'"]') : $('.thumbs-list-item:first-child .thumbs-list-item-link');
-			var itemIndex = $('[data-remembered-image="'+hashedImage+'"]').parent().index() + 1;
+			var itemIndex = actualImage.parent().index() + 1;
 			getFullImage(actualImage);
 			scrollItems(itemIndex);
+			navigationVisibility(itemIndex);
 		}
 	});
 
@@ -31,6 +32,7 @@ jQuery(document).ready(function ($) {
 		var itemIndex = $(this).parent().index() + 1;
 		scrollItems(itemIndex);
 		getFullImage(this);
+		navigationVisibility(itemIndex);
 	});
 
 	/* navigation-button click event */
@@ -83,9 +85,25 @@ function scrollItems(itemIndex,delta){
 	}
 }
 
+/* navigation functionality */
 function navigation(direction){
 	var itemIndex = $('li.active-thumb').index() + 1 + direction;
 	var activeItem = $('.thumbs-list-item:nth-child('+itemIndex+') .thumbs-list-item-link');
+	location.hash = activeItem.attr('data-remembered-image');
 	scrollItems(itemIndex);
 	getFullImage(activeItem);
+	navigationVisibility(itemIndex);
+}
+
+function navigationVisibility(itemIndex){
+	var activeItemIndex = $('li.active-thumb').index() + 1;
+	var itemsCount = $('.thumbs-list-item').length;
+	if(itemIndex == 1){
+		$('.nav-left').removeClass('navigation-button').fadeOut();
+	}else if(itemIndex == itemsCount){
+		$('.nav-right').removeClass('navigation-button').fadeOut();
+	}else{
+		$('.nav-left, .nav-right').addClass('navigation-button').fadeIn();
+	}
+
 }

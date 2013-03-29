@@ -96,6 +96,9 @@ html:hover .navigation-button:hover{
 	margin: auto;
 	background: url(../img/preloader.gif) center no-repeat;
 }
+.hidden{
+	display: none;
+}
 
 @media screen and (max-height: 450px) {
 	.view-wrapper{
